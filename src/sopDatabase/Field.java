@@ -1,4 +1,4 @@
-package sopGenerator;
+package sopDatabase;
 
 /**
  * File:    Field.java
