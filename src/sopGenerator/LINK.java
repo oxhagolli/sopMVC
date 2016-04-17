@@ -3,26 +3,27 @@ package sopGenerator;
 import java.util.HashMap;
 
 /**
- * File:    META.java
+ * File:    LINK.java
  * Package: sopGenerator
  * Project: sopMVC
  * <p>
- * Class META description.
+ * Class LINK description.
  *
  * @author Orens Xhagolli
  * @version 4/16/2016
  */
-public class META implements TAG{
+public class LINK implements TAG {
 
     HashMap<String, String> attr;
-
-    public META() {
+    public LINK() {
         attr = new HashMap<>();
     }
 
-    public META(String chst){
+    public LINK(String source){
+        addAttr("rel", "stylesheet");
+        addAttr("type", "text/css");
+        addAttr("href", source);
         attr = new HashMap<>();
-        addAttr("charset", chst);
     }
 
     public void addAttr(String attribute, String value){
@@ -32,7 +33,7 @@ public class META implements TAG{
     }
 
     public String getHTML(){
-        String ret = "<meta ";
+        String ret = "<link ";
         for(String str: attr.keySet()){
             ret += str + "=\"" + attr.get(str) + "\" ";
         }

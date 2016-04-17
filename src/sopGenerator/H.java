@@ -3,26 +3,24 @@ package sopGenerator;
 import java.util.HashMap;
 
 /**
- * File:    META.java
+ * File:    H.java
  * Package: sopGenerator
  * Project: sopMVC
  * <p>
- * Class META description.
+ * Class H description.
  *
  * @author Orens Xhagolli
  * @version 4/16/2016
  */
-public class META implements TAG{
-
+public class H {
     HashMap<String, String> attr;
+    String content;
+    int i;
 
-    public META() {
+    public H(int i, String content) {
         attr = new HashMap<>();
-    }
-
-    public META(String chst){
-        attr = new HashMap<>();
-        addAttr("charset", chst);
+        this.content = content;
+        this.i = i;
     }
 
     public void addAttr(String attribute, String value){
@@ -31,12 +29,18 @@ public class META implements TAG{
         attr.put(attribute, value);
     }
 
+    public void addContent(String content){
+        this.content += content;
+    }
+
     public String getHTML(){
-        String ret = "<meta ";
+        String ret = "<h" + i + " ";
         for(String str: attr.keySet()){
             ret += str + "=\"" + attr.get(str) + "\" ";
         }
-        ret += "/>\n";
+        ret += ">";
+        ret+=content;
+        ret+= "</h"+i+">\n";
         return ret;
     }
 }

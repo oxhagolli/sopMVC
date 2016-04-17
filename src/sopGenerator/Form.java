@@ -3,6 +3,7 @@ package sopGenerator;
 import sopDatabase.Field;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,16 +16,23 @@ import java.util.List;
  * @author Orens Xhagolli
  * @version 4/16/2016
  */
-public abstract class Form {
+public abstract class Form implements TAG{
 
     List<Field> fields;
+    HashMap<String, String> attr;
+    String content;
 
     public Form() {
         this.fields = new ArrayList<>();
+        attr = new HashMap<>();
     }
 
     public List<Field> getAllFields(){
         return fields;
+    }
+
+    public void addInput(String name, String type, String value){
+
     }
 
     public void addField(String name, String type){

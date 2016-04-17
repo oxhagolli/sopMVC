@@ -3,26 +3,28 @@ package sopGenerator;
 import java.util.HashMap;
 
 /**
- * File:    META.java
+ * File:    SCRIPT.java
  * Package: sopGenerator
  * Project: sopMVC
  * <p>
- * Class META description.
+ * Class SCRIPT description.
  *
  * @author Orens Xhagolli
  * @version 4/16/2016
  */
-public class META implements TAG{
+public class SCRIPT implements TAG{
 
     HashMap<String, String> attr;
+    String content;
 
-    public META() {
+    public SCRIPT() {
         attr = new HashMap<>();
     }
 
-    public META(String chst){
+    public SCRIPT(String source){
         attr = new HashMap<>();
-        addAttr("charset", chst);
+        addAttr("type", "text/javascript");
+        addAttr("src", source);
     }
 
     public void addAttr(String attribute, String value){
@@ -31,12 +33,18 @@ public class META implements TAG{
         attr.put(attribute, value);
     }
 
+    public void addContent(String content){
+        this.content += content;
+    }
+
     public String getHTML(){
-        String ret = "<meta ";
+        String ret = "<script ";
         for(String str: attr.keySet()){
             ret += str + "=\"" + attr.get(str) + "\" ";
         }
-        ret += "/>\n";
+        ret += ">";
+        ret+=content;
+        ret+= "</script>\n";
         return ret;
     }
 }

@@ -3,26 +3,23 @@ package sopGenerator;
 import java.util.HashMap;
 
 /**
- * File:    META.java
+ * File:    STYLE.java
  * Package: sopGenerator
  * Project: sopMVC
  * <p>
- * Class META description.
+ * Class STYLE description.
  *
  * @author Orens Xhagolli
  * @version 4/16/2016
  */
-public class META implements TAG{
+public class STYLE implements TAG{
 
     HashMap<String, String> attr;
+    String content;
 
-    public META() {
+    public STYLE() {
         attr = new HashMap<>();
-    }
-
-    public META(String chst){
-        attr = new HashMap<>();
-        addAttr("charset", chst);
+        addAttr("type", "text/css");
     }
 
     public void addAttr(String attribute, String value){
@@ -31,12 +28,18 @@ public class META implements TAG{
         attr.put(attribute, value);
     }
 
+    public void addContent(String content){
+        this.content += content;
+    }
+
     public String getHTML(){
-        String ret = "<meta ";
+        String ret = "<style ";
         for(String str: attr.keySet()){
             ret += str + "=\"" + attr.get(str) + "\" ";
         }
-        ret += "/>\n";
+        ret += ">";
+        ret+=content;
+        ret+= "</style>\n";
         return ret;
     }
 }
