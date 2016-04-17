@@ -20,14 +20,14 @@ public class LINK implements TAG {
     }
 
     public LINK(String source){
+        attr = new HashMap<>();
         addAttr("rel", "stylesheet");
         addAttr("type", "text/css");
         addAttr("href", source);
-        attr = new HashMap<>();
     }
 
     public void addAttr(String attribute, String value){
-        if(attr.keySet().contains(attr))
+        if(attr.keySet().contains(attribute))
             return;
         attr.put(attribute, value);
     }

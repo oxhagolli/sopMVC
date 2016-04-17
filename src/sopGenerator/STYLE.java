@@ -23,7 +23,7 @@ public class STYLE implements TAG{
     }
 
     public void addAttr(String attribute, String value){
-        if(attr.keySet().contains(attr))
+        if(attr.keySet().contains(attribute))
             return;
         attr.put(attribute, value);
     }

@@ -22,19 +22,18 @@ public class SCRIPT implements TAG{
     }
 
     public SCRIPT(String source){
-        attr = new HashMap<>();
         addAttr("type", "text/javascript");
         addAttr("src", source);
     }
 
     public void addAttr(String attribute, String value){
-        if(attr.keySet().contains(attr))
+        if(attr.keySet().contains(attribute))
             return;
         attr.put(attribute, value);
     }
 
     public void addContent(String content){
-        this.content += content;
+        this.content = content;
     }
 
     public String getHTML(){
@@ -44,7 +43,6 @@ public class SCRIPT implements TAG{
         }
         ret += ">";
         ret+=content;
-        ret+= "</script>\n";
         return ret;
     }
 }

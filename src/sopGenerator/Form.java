@@ -32,7 +32,8 @@ public abstract class Form implements TAG{
     }
 
     public void addInput(String name, String type, String value){
-
+        content += "\t<input name=\""+name+"\" + type=\""+type+
+                "\" value="+value+"/>\n";
     }
 
     public void addField(String name, String type){
@@ -44,4 +45,21 @@ public abstract class Form implements TAG{
     }
 
     public abstract void submit();
+
+    public void addAttr(String attribute, String value){
+        if(attr.keySet().contains(attribute))
+            return;
+        attr.put(attribute, value);
+    }
+
+    public String getHTML(){
+        String ret = "<form ";
+        for(String str: attr.keySet()){
+            ret += str + "=\"" + attr.get(str) + "\" ";
+        }
+        ret += ">\n";
+        ret += content;
+        ret += "<form/>\n";
+        return ret;
+    }
 }

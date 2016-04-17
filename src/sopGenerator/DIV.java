@@ -1,5 +1,6 @@
 package sopGenerator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,18 +16,32 @@ import java.util.List;
  */
 public class DIV implements TAG {
 
-    HashMap<String, String> attr;
-    List<TAG> elements;
+    private HashMap<String, String> attr;
+    private List<TAG> elements;
 
     public DIV() {
-
+        attr = new HashMap<>();
+        elements = new ArrayList<>();
     }
 
-    public void addAttr(String attr, String vaue){
+    public void addAttr(String attr, String value){
+        this.attr.put(attr, value);
+    }
 
+    public void addElement(TAG element){
+        elements.add(element);
     }
 
     public String getHTML(){
-        return "";
+        String ret = "<div ";
+        for(String str: attr.keySet()){
+            ret += str + "=\"" + attr.get(str) + "\" ";
+        }
+        ret += ">";
+        for(TAG elem: elements){
+            ret += elem.getHTML();
+        }
+        ret+= "</div>\n";
+        return ret;
     }
 }
