@@ -12,13 +12,15 @@ package sopDatabase;
  */
 public class Field {
 
-    String name, type;
-    boolean unique;
+    private String name, type;
+    private boolean unique;
+    private int maxlength;
 
-    public Field(String name, String type, boolean unique) {
+    public Field(String name, String type, boolean unique, int maxlength) {
         this.name = name;
         this.type = type;
         this.unique = unique;
+        this.maxlength = maxlength;
     }
 
     public String getName() {
@@ -31,5 +33,26 @@ public class Field {
 
     public boolean isUnique(){
         return unique;
+    }
+
+    public int getLength(){
+        return maxlength;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Field))
+            return false;
+        if (obj == this)
+            return true;
+        if (this.name.equals(((Field) obj).name) &&
+                this.type.equals(((Field) obj).type))
+            return true;
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode() + type.hashCode();
     }
 }

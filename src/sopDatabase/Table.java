@@ -3,8 +3,10 @@ package sopDatabase;
 import sopGenerator.Form;
 
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,14 +23,17 @@ public class Table {
 
 
     // JDBC driver name and database URL
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://sopmvc.cfjoojz4a6p9.us-west-2" +
+    private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    private static final String DB_URL = "jdbc:mysql://sopmvc.cfjoojz4a6p9.us-west-2" +
             ".rds.amazonaws.com:3306/sop";
     //  Database credentials
-    static final String USER = "sopMVC";
-    static final String PASS = "sopmvcsopmvc";
-    List<Field> fields;
-    String name;
+    private static final String USER = "sopMVC";
+    private static final String PASS = "sopmvcsopmvc";
+    private List<Field> fields;
+    private String name;
+
+    private java.sql.Connection conn = null;
+    private java.sql.Statement stmt = null;
 
     public Table(Form form, String name) {
         this.name = name;
@@ -36,10 +41,7 @@ public class Table {
         createTable();
     }
 
-    public void connectDB() {
-
-        java.sql.Connection conn = null;
-        java.sql.Statement stmt = null;
+    private void createTable(){
         try {
             //STEP 2: Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -55,80 +57,109 @@ public class Table {
 
 
             String unique = "";
-
-            String fields[] = null;
-            boolean boolVal = false;
-            String type = "";
             StringBuilder builderSQL = new StringBuilder();
             StringBuilder constraints = new StringBuilder();
 
-
-            String sql = "CREATE TABLE " + this.name + "(id INTEGER not NULL " +
-                    "AUTO_INCREMENT ";
-            builderSQL.append(sql);
+            builderSQL
+                    .append("CREATE TABLE if not exists ")
+                    .append(this.name)
+                    .append("(id INTEGER not NULL AUTO_INCREMENT ");
             for (Field fieldname : this.fields) {
-                builderSQL.append(", " + fieldname.getName() + " " + fieldname
-                        .getType() + ",");
+                builderSQL
+                        .append(", ")
+                        .append(fieldname.getName())
+                        .append(" ")
+                        .append(fieldname.getType())
+                        .append(" (")
+                        .append(fieldname.getLength())
+                        .append(")");
                 if (fieldname.isUnique()) {
-                    if (unique != null) {
+                    if (unique.length() < 1) {
                         constraints.append("CONSTRAINT constraint_name UNIQUE" +
                                 " (fieldname");
                     } else {
                         constraints.append(",fieldname");
                     }
                 }
-                // table
             }
-            constraints.append(", PRIMARY KEY (id)");//execute this to create the
+            constraints.append(", PRIMARY KEY (id)");
             constraints.append(");");
 
             builderSQL.append(constraints);
             stmt.executeUpdate(new String(builderSQL));
             System.out.println("Created table in given database...");
-        } catch (SQLException se) {
-            //Handle errors for JDBC
-            se.printStackTrace();
-        } catch (Exception e) {
-            //Handle errors for Class.forName
+        }
+        catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            //finally block used to close resources
-            try {
-                if (stmt != null)
-                    conn.close();
-            } catch (SQLException se) {
-            }// do nothing
-            try {
-                if (conn != null)
-                    conn.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }//end finally try
-        }//end try
+        }
         System.out.println("Goodbye!");
-
-
-    }
-
-    private void createTable(){
-        //TODO: Create a table by iterating through all the fields
-        //      fields = A list of class Field
-        //               class Field has getName() and getType()
-        //      primaryKey = the primary key FIELD for the table.
     }
 
     public void put(Row newRow){
-        //TODO: Put the row information of the table.
-        //      Row contains a get(Field field) method which returns a String
-        for(Field field: newRow.getFields()){
+        StringBuilder insertStatement = new StringBuilder();
+        insertStatement.append("Insert into ").append(this.name).append(" (");
+        StringBuilder cols = new StringBuilder();
+        StringBuilder vals = new StringBuilder();
+
+
+        for(String field: newRow.getFields()){
             String value = newRow.get(field);
+            if (!(cols.length() < 1)) {
+                cols.append(",").append(field);
+            }  else {
+                cols.append(field);
+            }
+
+            if (!(vals.length() < 1)) {
+                vals.append(",").append("\"").append(value).append("\"");
+            }
+            else {
+                vals.append("(").append("\"").append(value).append("\"");
+            }
+        }
+        cols.append(") VALUES");
+
+        vals.append(");");
+
+        insertStatement.append(cols);
+        insertStatement.append(vals);
+
+        try {
+            stmt.executeUpdate(new String(insertStatement));
+        }
+        catch (SQLException e){
+            e.printStackTrace();
         }
     }
 
     //NOT DONE YET
-    public List<Row> get(Field field, String value){
+    public List<Row> get(String field, String value){
+        List<Row> results = new ArrayList<>();
 
-        return new ArrayList<>();
+        try {
+            String qry = "select * from "+name+" where "+field + "='" + value+"';";
+            ResultSet resultSet = stmt.executeQuery(qry);
+
+            java.sql.ResultSetMetaData rsmd = resultSet.getMetaData();
+            while (resultSet.next()) {
+                Row row = new Row(new HashMap<>());
+                for (int i = 1; i<=rsmd.getColumnCount();i++) {
+                    Field f = new Field(
+                            rsmd.getColumnName(i),
+                            rsmd.getColumnTypeName(i),
+                            false,
+                            256);
+                    row.put(f, resultSet.getString(f.getName()));
+                }
+                results.add(row);
+            }
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return results;
     }
 
     public void update(Field unique,

@@ -2,6 +2,11 @@ package sopDatabase;
 
 import sopGenerator.Form;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * File:    DriverProgram.java
  * Package: sopDatabase
@@ -15,23 +20,14 @@ import sopGenerator.Form;
 public class DriverProgram {
 
     public static void main(String[] args) {
-        Table t = new Table(new Form() {
-            @Override
-            public void submit() {
-                return;
-            }
+        Form f = new Form();
+        f.addField("fname","varchar", 30);
+        f.addField("lname", "varchar", 30);
+        f.addField("email", "varchar", 30);
+        Table t = new Table(f, "names_test");
+        HashMap<String, String> hm = new HashMap<>();
 
-            @Override
-            public void addAttr(String attribute, String value) {
-                return;
-            }
-
-            @Override
-            public String getHTML() {
-                return null;
-            }
-        },
-        "Mytbl");
-        t.connectDB();
+        List<Row> list = t.get("email", "oxx6096@rit.edu");
+        System.out.println(list);
     }
 }

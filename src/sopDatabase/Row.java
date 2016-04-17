@@ -16,21 +16,25 @@ import java.util.List;
  */
 public class Row {
 
-    HashMap<Field, String> row;
+    HashMap<String, String> row;
 
-    public Row(HashMap<Field, String> row) {
+    public Row(HashMap<String, String> row) {
         this.row = row;
     }
 
     public String get(Field field){
+        return row.get(field.getName());
+    }
+
+    public String get(String field){
         return row.get(field);
     }
 
     public void put(Field field, String value){
-        row.put(field, value);
+        row.put(field.getName(), value);
     }
 
-    public List<Field> getFields(){
+    public List<String> getFields(){
         return new ArrayList<>(row.keySet());
     }
 }

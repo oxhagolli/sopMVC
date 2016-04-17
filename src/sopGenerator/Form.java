@@ -16,19 +16,19 @@ import java.util.List;
  * @author Orens Xhagolli
  * @version 4/16/2016
  */
-public abstract class Form implements TAG{
+public class Form implements TAG{
 
-    List<Field> fields;
+    HashMap<String, Field> fields;
     HashMap<String, String> attr;
     String content;
 
     public Form() {
-        this.fields = new ArrayList<>();
+        this.fields = new HashMap<>();
         attr = new HashMap<>();
     }
 
     public List<Field> getAllFields(){
-        return fields;
+        return new ArrayList<Field>(fields.values());
     }
 
     public void addInput(String name, String type, String value){
@@ -36,15 +36,17 @@ public abstract class Form implements TAG{
                 "\" value="+value+"/>\n";
     }
 
-    public void addField(String name, String type){
-        fields.add(new Field(name, type, false));
+    public void addField(String name, String type, int maxlength){
+        fields.put(name, new Field(name, type, false, maxlength));
     }
 
-    public void addField(String name, String type, boolean unique){
-        fields.add(new Field(name, type, unique));
+    public void addField(String name, String type, boolean unique, int maxlength){
+        fields.put(name, new Field(name, type, unique, maxlength));
     }
 
-    public abstract void submit();
+    public Field getField(String name){
+        return fields.get(name);
+    }
 
     public void addAttr(String attribute, String value){
         if(attr.keySet().contains(attribute))
