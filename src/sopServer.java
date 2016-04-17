@@ -1,4 +1,10 @@
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
+
 import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -22,27 +28,23 @@ public class sopServer {
             throws Exception {
         if (args.length != 1) usage();
         String host = args[0];
-        ServerSocket serversocket = new ServerSocket();
-        serversocket.bind(new InetSocketAddress(host, 80));
-        for (; ; ) {
-            Socket s = serversocket.accept();
-            new Thread(() -> {
-                try (Scanner scanner = new Scanner(s.getInputStream());
-                     BufferedOutputStream out = new BufferedOutputStream(s
-                             .getOutputStream())) {
-                    while (scanner.hasNextLine())
-                        System.out.println(scanner.nextLine());
-                    out.write(Byte.parseByte("HTTP/1.1 200 OK"));
-                    out.flush();
-                    out.write(Byte.parseByte("Date: "+ new Date().toString()));
-                    out.flush();
-                } catch (Exception exc) {
-                    exc.printStackTrace(System.err);
-                }
-            });
-        }
+        HttpServer server = HttpServer.create();
+        server.bind(new InetSocketAddress(host, 80), 0);
+        server.setExecutor(null);
+        server.start();
     }
 
+    public static class MyHandler implements HttpHandler{
+        public void handle(HttpExchange t) throws IOException{
+
+            String response = "WAZZAP MOTHERFUCKEERS!";
+            t.sendResponseHeaders(200, response.length());
+            OutputStream os = t.getResponseBody();
+            os.write(response.getBytes());
+            os.flush();
+            os.close();
+        }
+    }
 
     private static void usage() {
         System.err.println("Usage: java DayTimeServer <host>");

@@ -12,7 +12,7 @@ import java.util.HashMap;
  * @author Orens Xhagolli
  * @version 4/16/2016
  */
-public class H {
+public class H implements TAG{
     HashMap<String, String> attr;
     String content;
     int i;
