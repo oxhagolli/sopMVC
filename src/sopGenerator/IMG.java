@@ -3,21 +3,21 @@ package sopGenerator;
 import java.util.HashMap;
 
 /**
- * File:    STRONG.java
+ * File:    IMG.java
  * Package: sopGenerator
  * Project: sopMVC
  * <p>
- * Class STRONG description.
+ * Class IMG description.
  *
  * @author Orens Xhagolli
  * @version 4/16/2016
  */
-public class STRONG implements TAG{
+public class IMG implements TAG{
 
     HashMap<String, String> attr;
     String content;
 
-    public STRONG(String content) {
+    public IMG(String content) {
         attr = new HashMap<>();
         this.content = content;
     }
@@ -34,13 +34,13 @@ public class STRONG implements TAG{
     }
 
     public String getHTML(){
-        String ret = "<strong ";
+        String ret = "<img ";
         for(String str: attr.keySet()){
             ret += str + "=\"" + attr.get(str) + "\" ";
         }
         ret += ">";
         ret+=content;
-        ret+= "</strong>\n";
+        ret+= "</img>\n";
         return ret;
     }
 }
