@@ -13,27 +13,14 @@ import sopGenerator.*;
 public class staticSOP {
 
     public static void main(String[] args) {
-        new DOM("Title", "en"){
+        new DOM("Demo", "en"){
             public String header(){
-                String header = "Portfolio - Demo";
-
-                //TODO: FILL THIS
-                //EXAMPLE:
-                LINK link = new LINK(
-                        "http://patrickpistor.com/style/style.css");
-                header += link.getHTML();
-
-
-                return header;
+                return "";
             }
 
             public String body(){
                 String body = "";
 
-                //TODO: FILL THIS
-                //EXAMPLE:
-                //NOTE: getHTML is recursive so you only need to call it
-                //on the outermost element.
                 DIV navbar = new DIV();
                 navbar.addAttr("style", "position: absolute; width: 100vw; z-index: 1;");
                 UL unorderedList = new UL();

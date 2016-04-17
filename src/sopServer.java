@@ -3,6 +3,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.BufferedOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -30,14 +31,17 @@ public class sopServer {
         String host = args[0];
         HttpServer server = HttpServer.create();
         server.bind(new InetSocketAddress(host, 80), 0);
+        server.createContext("/", new MyHandler());
         server.setExecutor(null);
         server.start();
     }
 
     public static class MyHandler implements HttpHandler{
         public void handle(HttpExchange t) throws IOException{
-
-            String response = "WAZZAP MOTHERFUCKEERS!";
+            Scanner scanner = new Scanner(new FileReader("index.html"));
+            String response = "";
+            while(scanner.hasNextLine())
+                response += scanner.nextLine()+"\n";
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
