@@ -167,14 +167,28 @@ body {
   margin-right: auto !important;
   margin-left: auto !important;
 }
+.round {
+	border-radius: 16px !important;
+}
+.circle {
+	border-radius: 50% !important;
+}
+
+/* Images */
 .img-responsive {
   	display: block; 
   	max-width: 100%;
   	height: auto;
 }
+.hover-opacity:hover {
+	opacity:0.60;
+	text-shadow:1px 1px 0 #444;
+}
+
+
 
 /* Text */
-h1,h2,h3,h4,h5,h6,.slim,.wide {
+h1, h2, h3, h4, h5, h6, .slim, .wide {
 	font-family: "Open Sans", sans-serif;
 }
 h1 {
@@ -197,9 +211,10 @@ h6 {
 }
 .alt {
 	font-family:"Roboto", sans-serif;
+	font-weight: 200;
 }
-h1,h2,h3,h4,h5,h6 {
-	font-weight: 400;
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 200;
 	margin: 10px 0;
 }
 .wide {
@@ -355,10 +370,10 @@ i.color-circle {
 	margin: 64px !important
 }
 .m-top {
-	margin-top: 16px !important
+	margin-top: 8px !important
 }
 .m-bottom {
-	margin-bottom: 16px !important
+	margin-bottom: 8px !important
 }
 .m-left {
 	margin-left: 16px !important
@@ -434,14 +449,11 @@ i.color-circle {
 }
 
 /* Forms */
-.round {
-	border-radius: 16px;
-}
 .btn {
-	display:inline-block;
-	vertical-align:middle;
-	overflow:hidden;
-	text-decoration:none !important;
+	display: block;
+	vertical-align: middle;
+	overflow: hidden;
+	text-decoration: none !important;
 	border-bottom: 4px solid;
 	border-radius: 2px;
 	display: inline-block;
@@ -464,8 +476,8 @@ i.color-circle {
 	border-radius: 2px;
 }
 .textbox {
-	display:inline-block;
-	overflow:hidden;
+	display: block;
+	overflow: hidden;
 	border: 1px solid #ccc;
 	height: 34px;
 	padding: 4px 12px;
@@ -475,9 +487,22 @@ i.color-circle {
 	-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 	transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
+.textarea {
+	display: block;
+	overflow: hidden;
+	border: 1px solid #ccc;
+	height: auto;
+	padding: 4px 12px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+
 
 /* Colors */
-
 .white, .white-hover:hover, .white-active {
 	background-color: #ecf0f1 !important;
 	color: #2c3e50 !important;
