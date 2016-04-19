@@ -2,14 +2,10 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-import java.io.BufferedOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -31,14 +27,19 @@ public class sopServer {
         String host = args[0];
         HttpServer server = HttpServer.create();
         server.bind(new InetSocketAddress(host, 80), 0);
-        server.createContext("/", new MyHandler());
+        server.createContext("/",hndl("index.html"));
+        server.createContext("/index.html", hndl("index.html"));
+        server.createContext("/about.html", hndl("about.html"));
+        server.createContext("/proj.html", hndl("proj.html"));
+        server.createContext("/contact.html", hndl("contact.html"));
+        System.out.println(server.getAddress().toString());
         server.setExecutor(null);
         server.start();
     }
 
-    public static class MyHandler implements HttpHandler{
-        public void handle(HttpExchange t) throws IOException{
-            Scanner scanner = new Scanner(new FileReader("index.html"));
+    public static HttpHandler hndl(String filename) throws IOException{
+        return t -> {
+            Scanner scanner = new Scanner(new FileReader(filename));
             String response = "";
             while(scanner.hasNextLine())
                 response += scanner.nextLine()+"\n";
@@ -47,7 +48,7 @@ public class sopServer {
             os.write(response.getBytes());
             os.flush();
             os.close();
-        }
+        };
     }
 
     private static void usage() {

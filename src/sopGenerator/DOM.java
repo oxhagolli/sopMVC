@@ -24,9 +24,7 @@ public abstract class DOM {
         HTMLBuilder += "<title>"+title+"</title>\n";
         HTMLBuilder += "<meta charset=\"UTF-8\" />";
         HTMLBuilder += header();
-        HTMLBuilder += "<link rel='Stylesheet' type='text/css' href='https://" +
-                "raw.githubusercontent.com/oxhagolli/sopMVC/master/public/" +
-                "style.css' />";
+        HTMLBuilder += "<link rel='Stylesheet' type='text/css' href='http://patrickpistor.com/style/style.css' />";
         HTMLBuilder += "</head>\n<body>\n";
         HTMLBuilder += body();
         HTMLBuilder += "</body>\n</html>\n";

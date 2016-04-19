@@ -15,11 +15,9 @@ import java.util.HashMap;
 public class IMG implements TAG{
 
     HashMap<String, String> attr;
-    String content;
 
-    public IMG(String content) {
+    public IMG() {
         attr = new HashMap<>();
-        this.content = content;
     }
 
 
@@ -29,18 +27,13 @@ public class IMG implements TAG{
         attr.put(attribute, value);
     }
 
-    public void addContent(String content){
-        this.content += content;
-    }
 
     public String getHTML(){
         String ret = "<img ";
         for(String str: attr.keySet()){
             ret += str + "=\"" + attr.get(str) + "\" ";
         }
-        ret += ">";
-        ret+=content;
-        ret+= "</img>\n";
+        ret += " />";
         return ret;
     }
 }
